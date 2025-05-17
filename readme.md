@@ -16,4 +16,8 @@ npm i cors dotenv express helmet jsonwebtoken mongoose nodemon
 design service extra -
 npm i axios
 
+### Steps
+
+create auth secret
+npx auth secret
 
