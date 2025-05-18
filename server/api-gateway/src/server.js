@@ -1,8 +1,11 @@
 require("dotenv").config();
+
 const express = require("express");
 const proxy = require("express-http-proxy");
 const cors = require("cors");
 const helmet = require("helmet");
+const authMiddleware = require("./middleware/auth-middleware");
+const { auth } = require("google-auth-library");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -29,6 +32,7 @@ const proxyOptions = {
 // call design service
 app.use(
   "/api/design",
+  authMiddleware,
   proxy(process.env.DESIGN, {
     ...proxyOptions,
     parseReqBody: false,
@@ -38,6 +42,7 @@ app.use(
 // call upload service
 app.use(
   "/api/media",
+  authMiddleware,
   proxy(process.env.UPLOAD, {
     ...proxyOptions,
     parseReqBody: false,
@@ -47,6 +52,7 @@ app.use(
 // call subscription service
 app.use(
   "/api/subscription",
+  authMiddleware,
   proxy(process.env.SUBSCRIPTION, {
     ...proxyOptions,
     parseReqBody: false,
